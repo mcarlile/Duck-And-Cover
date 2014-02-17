@@ -18,7 +18,7 @@ public class Manager : MonoBehaviour
 		public float secondaryTime;
 		public float tertiaryTime;
 		public int chairOccupied;
-
+		public GameObject bomb;
 		public GameObject bombSounds;
 		public GameObject emergencyLight;
 		public bool timerOn = false;
@@ -190,7 +190,7 @@ public class Manager : MonoBehaviour
 				}
 
 				if (time >= 120) {
-						Application.LoadLevel (3);
+						bomb.SetActive (true);
 				}
 		
 		}

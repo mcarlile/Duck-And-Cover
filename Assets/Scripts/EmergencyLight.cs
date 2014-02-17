@@ -16,6 +16,7 @@ public class EmergencyLight : MonoBehaviour
 	
 		void Awake ()
 		{
+				DontDestroyOnLoad (transform.gameObject);
 				// When the level starts we want the light to be "off".
 				light.intensity = 0f;
 		
