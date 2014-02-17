@@ -16,6 +16,8 @@ public class Manager : MonoBehaviour
 		public float lightDimLevel;
 		public float time;
 		public float secondaryTime;
+		public float tertiaryTime;
+		public int chairOccupied;
 
 		public GameObject bombSounds;
 		public GameObject emergencyLight;
@@ -24,6 +26,11 @@ public class Manager : MonoBehaviour
 		public GameObject instructions2;
 		public GameObject instructions3;
 		public GameObject instructions4;
+		public GameObject instructions5;
+		public GameObject instructions6;
+		public GameObject instructions7;
+		public GameObject instructions10;
+		public GameObject instructions11;
 		public GameObject instructionsSitSuccess;
 		public GameObject instructionsSitFailure;
 
@@ -38,6 +45,8 @@ public class Manager : MonoBehaviour
 		public GameObject filmScreen;
 		public bool showInstruction1 = true;
 		public bool showInstruction2 = true;
+		public bool allowSecondaryTimer = true;
+		public bool allowTertiaryTimer = false;
 
 
 		// Use this for initialization
@@ -48,7 +57,13 @@ public class Manager : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-				secondaryTime = secondaryTime += Time.deltaTime;
+				if (allowSecondaryTimer == true) {
+						secondaryTime = secondaryTime += Time.deltaTime;
+				}
+
+				if (allowTertiaryTimer == true) {
+						tertiaryTime = tertiaryTime += Time.deltaTime;
+				}
 
 				if (showInstruction2 == false) {
 						HideInstruction2 ();
@@ -66,7 +81,61 @@ public class Manager : MonoBehaviour
 
 				if (secondaryTime >= 6.0) {
 						ActivateChairs ();
+						allowSecondaryTimer = false;
 				}
+
+				if (tertiaryTime >= 4.0) {
+						instructions3.SetActive (true);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+				if (tertiaryTime >= 6.0) {
+						instructions4.SetActive (true);
+						instructions3.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+				if (tertiaryTime >= 9.0) {
+						instructions5.SetActive (true);
+						instructions4.SetActive (false);
+						instructions3.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+				if (tertiaryTime >= 12.0) {
+						instructions6.SetActive (true);
+						instructions5.SetActive (false);
+						instructions4.SetActive (false);
+						instructions3.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+				if (tertiaryTime >= 16.0) {
+						instructions7.SetActive (true);
+						instructions6.SetActive (false);
+						instructions5.SetActive (false);
+						instructions4.SetActive (false);
+						instructions3.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+				if (tertiaryTime >= 16.0) {
+						SatInChair ();
+						instructions7.SetActive (false);
+						instructions6.SetActive (false);
+						instructions5.SetActive (false);
+						instructions4.SetActive (false);
+						instructions3.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+				}
+
+
 
 				scoreMesh.GetComponent<TextMesh> ().text = "" + score;
 				if (timerOn == (true)) {
@@ -90,12 +159,34 @@ public class Manager : MonoBehaviour
 
 				if (time >= 104) {
 						instructions1.SetActive (false);
-						instructions3.SetActive (true);
+						instructions3.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+						instructionsSitFailure.SetActive (true);
+						instructions2.SetActive (false);
+						instructions3.SetActive (false);
+						instructions4.SetActive (false);
+						instructions5.SetActive (false);
+						instructions6.SetActive (false);
+						instructions7.SetActive (false);
+						showInstruction1 = false;
+						showInstruction2 = false;
+						instructions10.SetActive (true);
 				}
 
 				if (time >= 108) {
 						instructions3.SetActive (false);
-						instructions4.SetActive (true);
+						instructionsSitSuccess.SetActive (false);
+						instructionsSitFailure.SetActive (true);
+						instructions1.SetActive (false);
+						instructions2.SetActive (false);
+						instructions3.SetActive (false);
+						instructions4.SetActive (false);
+						instructions5.SetActive (false);
+						instructions6.SetActive (false);
+						instructions7.SetActive (false);
+						showInstruction1 = false;
+						showInstruction2 = false;
+						instructions11.SetActive (true);
 				}
 
 				if (time >= 120) {
@@ -111,26 +202,26 @@ public class Manager : MonoBehaviour
 
 
 
-		public void SatInChair (int CameraToSwitchTo)
+		public void SatInChair ()
 		{
 				filmScreen.GetComponent<FilmScreen> ().StartVideo ();
 				StartVideoSequence ();
 				mainCamera.enabled = false;
 				directionalLight.light.intensity = lightDimLevel;
 				projector.gameObject.SetActive (true);
-				if (CameraToSwitchTo == 1) {
+				if (chairOccupied == 1) {
 						roomCamera1.enabled = true;
 						roomCamera2.enabled = false;
 						roomCamera3.enabled = false;
 						roomCamera4.enabled = false;
 				}
-				if (CameraToSwitchTo == 2) {
+				if (chairOccupied == 2) {
 						roomCamera1.enabled = false;
 						roomCamera2.enabled = true;
 						roomCamera3.enabled = false;
 						roomCamera4.enabled = false;
 				}
-				if (CameraToSwitchTo == 3) {
+				if (chairOccupied == 3) {
 						roomCamera1.enabled = false;
 						roomCamera2.enabled = false;
 						roomCamera3.enabled = true;
@@ -138,7 +229,7 @@ public class Manager : MonoBehaviour
 
 				}
 	
-				if (CameraToSwitchTo == 4) {
+				if (chairOccupied == 4) {
 						roomCamera1.enabled = false;
 						roomCamera2.enabled = false;
 						roomCamera3.enabled = false;
@@ -165,6 +256,14 @@ public class Manager : MonoBehaviour
 				chair3.SetActive (true);
 				chair4.SetActive (true);
 		}
+
+		public void TriggerChairs ()
+		{
+				chair1.GetComponent<Chair> ().Activate ();
+				chair2.GetComponent<Chair> ().Activate ();
+				chair3.GetComponent<Chair> ().Activate ();
+				chair4.GetComponent<Chair> ().Activate ();
+		}
 		public void DeactivateChairs ()
 		{
 				chair1.GetComponent<Chair> ().Deactivate ();
@@ -187,7 +286,7 @@ public class Manager : MonoBehaviour
 				instructions1.SetActive (false);
 				instructions2.SetActive (false);
 				instructions3.SetActive (false);
-				instructions4.SetActive (false);
+				instructions10.SetActive (false);
 		}
 
 		public void ShowSitSuccess ()
@@ -197,7 +296,7 @@ public class Manager : MonoBehaviour
 				instructions1.SetActive (false);
 				instructions2.SetActive (false);
 				instructions3.SetActive (false);
-				instructions4.SetActive (false);
+				instructions10.SetActive (false);
 				showInstruction1 = false;
 				showInstruction2 = false;
 		}
@@ -210,6 +309,10 @@ public class Manager : MonoBehaviour
 				instructions2.SetActive (false);
 				instructions3.SetActive (false);
 				instructions4.SetActive (false);
+				instructions5.SetActive (false);
+				instructions6.SetActive (false);
+				instructions7.SetActive (false);
+				instructions10.SetActive (false);
 				showInstruction1 = false;
 				showInstruction2 = false;
 		}
@@ -232,5 +335,17 @@ public class Manager : MonoBehaviour
 		public void HideInstruction2 ()
 		{
 				instructions2.SetActive (false);
+		}
+
+		public void AllowTertiaryTimer (int occupiedChair)
+		{
+				chairOccupied = occupiedChair;
+				allowTertiaryTimer = true;
+		}
+
+		public void DisableTertiaryTimer ()
+		{
+				allowTertiaryTimer = false;
+				tertiaryTime = 0.0f;
 		}
 }

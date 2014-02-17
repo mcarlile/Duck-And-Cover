@@ -24,11 +24,11 @@ public class Chair : MonoBehaviour
 		{
 				if (chairsActive == false) {
 						manager.GetComponent<Manager> ().ShowSitSuccess ();
+						manager.GetComponent<Manager> ().AllowTertiaryTimer (chairPosition);
 				}
 
 				if (chairsActive == true) {
-						manager.GetComponent<Manager> ().SatInChair (chairPosition);
-
+						//manager.GetComponent<Manager> ().SatInChair (chairPosition);
 				}
 
 		}
@@ -37,10 +37,12 @@ public class Chair : MonoBehaviour
 		{
 				if (chairsActive == false) {
 						manager.GetComponent<Manager> ().ShowSitFailure ();
+						manager.GetComponent<Manager> ().DisableTertiaryTimer ();
+
 				}
 		
 				if (chairsActive == true) {
-						manager.GetComponent<Manager> ().SatInChair (chairPosition);
+						//manager.GetComponent<Manager> ().SatInChair (chairPosition);
 			
 				}
 		
