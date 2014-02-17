@@ -15,6 +15,8 @@ public class Manager : MonoBehaviour
 		public Light projector;
 		public float lightDimLevel;
 		public float time;
+		public float secondaryTime;
+
 		public GameObject bombSounds;
 		public GameObject emergencyLight;
 		public bool timerOn = false;
@@ -22,6 +24,9 @@ public class Manager : MonoBehaviour
 		public GameObject instructions2;
 		public GameObject instructions3;
 		public GameObject instructions4;
+		public GameObject instructionsSitSuccess;
+		public GameObject instructionsSitFailure;
+
 		public GameObject desk1;
 		public GameObject desk2;
 		public GameObject desk3;
@@ -31,16 +36,38 @@ public class Manager : MonoBehaviour
 		public GameObject chair3;
 		public GameObject chair4;
 		public GameObject filmScreen;
+		public bool showInstruction1 = true;
+		public bool showInstruction2 = true;
+
 
 		// Use this for initialization
 		void Start ()
 		{
-				instructions1.SetActive (true);
 		}
 	
 		// Update is called once per frame
 		void Update ()
 		{
+				secondaryTime = secondaryTime += Time.deltaTime;
+
+				if (showInstruction2 == false) {
+						HideInstruction2 ();
+				}
+				if ((secondaryTime >= 2.0) && (showInstruction1 == true)) {
+						ShowInstruction1 ();
+				}
+
+				if ((secondaryTime >= 5.0) && (showInstruction2 == true)) {
+						HideInstruction1 ();
+						ShowInstruction2 ();
+				} else {
+						HideInstruction2 ();
+				}
+
+				if (secondaryTime >= 6.0) {
+						ActivateChairs ();
+				}
+
 				scoreMesh.GetComponent<TextMesh> ().text = "" + score;
 				if (timerOn == (true)) {
 						time = time += Time.deltaTime;
@@ -131,6 +158,13 @@ public class Manager : MonoBehaviour
 				emergencyLight.GetComponent<EmergencyLight> ().ActivateEmergencyLight ();
 		}
 
+		public void ActivateChairs ()
+		{
+				chair1.SetActive (true);
+				chair2.SetActive (true);
+				chair3.SetActive (true);
+				chair4.SetActive (true);
+		}
 		public void DeactivateChairs ()
 		{
 				chair1.GetComponent<Chair> ().Deactivate ();
@@ -145,8 +179,58 @@ public class Manager : MonoBehaviour
 				desk2.GetComponent<Desk> ().Activate ();
 				desk3.GetComponent<Desk> ().Activate ();
 				desk4.GetComponent<Desk> ().Activate ();
+		}
 
+		public void ClearMessages ()
+		{
+				Debug.Log ("Messages cleared");
+				instructions1.SetActive (false);
+				instructions2.SetActive (false);
+				instructions3.SetActive (false);
+				instructions4.SetActive (false);
+		}
 
+		public void ShowSitSuccess ()
+		{
+				instructionsSitSuccess.SetActive (true);
+				instructionsSitFailure.SetActive (false);
+				instructions1.SetActive (false);
+				instructions2.SetActive (false);
+				instructions3.SetActive (false);
+				instructions4.SetActive (false);
+				showInstruction1 = false;
+				showInstruction2 = false;
+		}
 
+		public void ShowSitFailure ()
+		{
+				instructionsSitSuccess.SetActive (false);
+				instructionsSitFailure.SetActive (true);
+				instructions1.SetActive (false);
+				instructions2.SetActive (false);
+				instructions3.SetActive (false);
+				instructions4.SetActive (false);
+				showInstruction1 = false;
+				showInstruction2 = false;
+		}
+
+		public void ShowInstruction1 ()
+		{
+				instructions1.SetActive (true);
+		}
+
+		public void HideInstruction1 ()
+		{
+				instructions1.SetActive (false);
+		}
+
+		public void ShowInstruction2 ()
+		{
+				instructions2.SetActive (true);
+		}
+
+		public void HideInstruction2 ()
+		{
+				instructions2.SetActive (false);
 		}
 }
