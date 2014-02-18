@@ -18,6 +18,5 @@ public class CollisionScript : MonoBehaviour
 
 		void OnTriggerEnter ()
 		{
-				Debug.Log ("asdfsdf");
 		}
 }

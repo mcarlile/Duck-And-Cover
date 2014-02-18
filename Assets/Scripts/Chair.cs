@@ -55,6 +55,7 @@ public class Chair : MonoBehaviour
 
 		public void Activate ()
 		{
+				Debug.Log ("chairs are active");
 				chairsActive = true;
 		}
 

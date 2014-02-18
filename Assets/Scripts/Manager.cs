@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
 		public Camera roomCamera2;
 		public Camera roomCamera3;
 		public Camera roomCamera4;
-		public Light directionalLight;
+		public GameObject directionalLight;
 		public Light projector;
 		public float lightDimLevel;
 		public float time;
@@ -31,9 +31,11 @@ public class Manager : MonoBehaviour
 		public GameObject instructions7;
 		public GameObject instructions10;
 		public GameObject instructions11;
+		public GameObject instructions12;
 		public GameObject instructionsSitSuccess;
+		public GameObject instructionsDuckAndCoverSuccess;
+		public GameObject instructionsDuckAndCoverFailure;
 		public GameObject instructionsSitFailure;
-
 		public GameObject desk1;
 		public GameObject desk2;
 		public GameObject desk3;
@@ -146,7 +148,7 @@ public class Manager : MonoBehaviour
 						bombSounds.SetActive (true);
 				}
 
-				if (time >= 102) {
+				if (time >= 80) {
 						StartBombSequence ();
 						mainCamera.enabled = true;
 						roomCamera1.enabled = false;
@@ -157,11 +159,11 @@ public class Manager : MonoBehaviour
 						ActivateDesks ();
 				}
 
-				if (time >= 104) {
+				if (time >= 82) {
 						instructions1.SetActive (false);
 						instructions3.SetActive (false);
 						instructionsSitSuccess.SetActive (false);
-						instructionsSitFailure.SetActive (true);
+						instructionsSitFailure.SetActive (false);
 						instructions2.SetActive (false);
 						instructions3.SetActive (false);
 						instructions4.SetActive (false);
@@ -171,12 +173,14 @@ public class Manager : MonoBehaviour
 						showInstruction1 = false;
 						showInstruction2 = false;
 						instructions10.SetActive (true);
-				}
+						instructions11.SetActive (false);
 
-				if (time >= 108) {
+				}
+		
+				if ((time >= 86) && (time <= 88)) {
 						instructions3.SetActive (false);
 						instructionsSitSuccess.SetActive (false);
-						instructionsSitFailure.SetActive (true);
+						instructionsSitFailure.SetActive (false);
 						instructions1.SetActive (false);
 						instructions2.SetActive (false);
 						instructions3.SetActive (false);
@@ -186,10 +190,30 @@ public class Manager : MonoBehaviour
 						instructions7.SetActive (false);
 						showInstruction1 = false;
 						showInstruction2 = false;
-						instructions11.SetActive (true);
+						instructions10.SetActive (false);
+						instructions11.SetActive (false);
+						instructions12.SetActive (true);
 				}
 
-				if (time >= 120) {
+				if (time >= 88) {
+						instructions3.SetActive (false);
+						instructionsSitSuccess.SetActive (false);
+						instructionsSitFailure.SetActive (false);
+						instructions1.SetActive (false);
+						instructions2.SetActive (false);
+						instructions3.SetActive (false);
+						instructions4.SetActive (false);
+						instructions5.SetActive (false);
+						instructions6.SetActive (false);
+						instructions7.SetActive (false);
+						showInstruction1 = false;
+						showInstruction2 = false;
+						instructions10.SetActive (false);
+						instructions11.SetActive (false);
+						instructions12.SetActive (false);
+				}
+		
+				if (time >= 110) {
 						bomb.SetActive (true);
 				}
 		
@@ -244,9 +268,9 @@ public class Manager : MonoBehaviour
 	
 		public void StartBombSequence ()
 		{
-				Debug.Log ("Startbombsequencecalled");
 				emergencyLight.SetActive (true);
 				emergencyLight.GetComponent<EmergencyLight> ().ActivateEmergencyLight ();
+				directionalLight.SetActive (false);
 		}
 
 		public void ActivateChairs ()
@@ -317,6 +341,46 @@ public class Manager : MonoBehaviour
 				showInstruction2 = false;
 		}
 
+		public void ShowHideFailure ()
+		{
+				instructionsSitSuccess.SetActive (false);
+				instructionsSitFailure.SetActive (false);
+				instructions1.SetActive (false);
+				instructions2.SetActive (false);
+				instructions3.SetActive (false);
+				instructions4.SetActive (false);
+				instructions5.SetActive (false);
+				instructions6.SetActive (false);
+				instructions7.SetActive (false);
+				instructions10.SetActive (false);
+				instructions11.SetActive (false);
+				instructions12.SetActive (false);
+				showInstruction1 = false;
+				showInstruction2 = false;
+				instructionsDuckAndCoverFailure.SetActive (true);
+				instructionsDuckAndCoverSuccess.SetActive (false);
+		}
+
+		public void ShowHideSuccess ()
+		{
+				instructionsSitSuccess.SetActive (false);
+				instructionsSitFailure.SetActive (false);
+				instructions1.SetActive (false);
+				instructions2.SetActive (false);
+				instructions3.SetActive (false);
+				instructions4.SetActive (false);
+				instructions5.SetActive (false);
+				instructions6.SetActive (false);
+				instructions7.SetActive (false);
+				instructions10.SetActive (false);
+				instructions11.SetActive (false);
+				instructions12.SetActive (false);
+				showInstruction1 = false;
+				showInstruction2 = false;
+				instructionsDuckAndCoverFailure.SetActive (false);
+				instructionsDuckAndCoverSuccess.SetActive (true);
+		}
+	
 		public void ShowInstruction1 ()
 		{
 				instructions1.SetActive (true);

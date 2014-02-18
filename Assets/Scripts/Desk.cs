@@ -4,8 +4,9 @@ using System.Collections;
 public class Desk : MonoBehaviour
 {
 
-		public GameObject instructionsSafe;
-		public GameObject instructionsDanger;
+		public GameObject instructionsDuckAndCoverFailure;
+		public GameObject instructionsDuckAndCoverSuccess;
+		public GameObject manager;
 		public bool desksActive = false;
 		// Use this for initialization
 		void Start ()
@@ -16,15 +17,16 @@ public class Desk : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
-	
+				Debug.Log ("desksActive: " + desksActive);
 		}
 
 		void OnTriggerEnter (Collider otherCollider)
 		{
 				if (otherCollider.name.Contains ("Sphere")) {
 						if (desksActive == true) {
-								instructionsDanger.SetActive (false);
-								instructionsSafe.SetActive (true);
+								manager.GetComponent<Manager> ().ShowSitSuccess ();
+								instructionsDuckAndCoverFailure.SetActive (false);
+								instructionsDuckAndCoverSuccess.SetActive (true);
 						}
 				}
 		}
@@ -33,8 +35,9 @@ public class Desk : MonoBehaviour
 		{
 				if (otherCollider.name.Contains ("Sphere")) {
 						if (desksActive == true) {
-								instructionsDanger.SetActive (true);
-								instructionsSafe.SetActive (false);
+								manager.GetComponent<Manager> ().ShowSitFailure ();
+								instructionsDuckAndCoverFailure.SetActive (true);
+								instructionsDuckAndCoverSuccess.SetActive (false);
 						}
 				}
 		}
