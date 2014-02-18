@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Manager : MonoBehaviour
 {
-
+		public bool safe = true;
 		public float score;
 		public TextMesh scoreMesh;
 		public Camera mainCamera;
@@ -22,6 +22,7 @@ public class Manager : MonoBehaviour
 		public GameObject bombSounds;
 		public GameObject emergencyLight;
 		public bool timerOn = false;
+		public GameObject FloorTrigger;
 		public GameObject instructions1;
 		public GameObject instructions2;
 		public GameObject instructions3;
@@ -228,8 +229,10 @@ public class Manager : MonoBehaviour
 
 		public void SatInChair ()
 		{
+				//DeactivateChairs ();
 				filmScreen.GetComponent<FilmScreen> ().StartVideo ();
 				StartVideoSequence ();
+
 				mainCamera.enabled = false;
 				directionalLight.light.intensity = lightDimLevel;
 				projector.gameObject.SetActive (true);
@@ -269,6 +272,7 @@ public class Manager : MonoBehaviour
 		public void StartBombSequence ()
 		{
 				emergencyLight.SetActive (true);
+				instructionsSitFailure.SetActive (false);
 				emergencyLight.GetComponent<EmergencyLight> ().ActivateEmergencyLight ();
 				directionalLight.SetActive (false);
 		}
@@ -315,6 +319,8 @@ public class Manager : MonoBehaviour
 
 		public void ShowSitSuccess ()
 		{
+				FloorTrigger.GetComponent<Destruction> ().SetSafetoTrue ();
+
 				instructionsSitSuccess.SetActive (true);
 				instructionsSitFailure.SetActive (false);
 				instructions1.SetActive (false);
@@ -327,6 +333,8 @@ public class Manager : MonoBehaviour
 
 		public void ShowSitFailure ()
 		{
+				FloorTrigger.GetComponent<Destruction> ().SetSafetoFalse ();
+
 				instructionsSitSuccess.SetActive (false);
 				instructionsSitFailure.SetActive (true);
 				instructions1.SetActive (false);
@@ -343,6 +351,8 @@ public class Manager : MonoBehaviour
 
 		public void ShowHideFailure ()
 		{
+				FloorTrigger.GetComponent<Destruction> ().SetSafetoFalse ();
+
 				instructionsSitSuccess.SetActive (false);
 				instructionsSitFailure.SetActive (false);
 				instructions1.SetActive (false);
@@ -363,6 +373,8 @@ public class Manager : MonoBehaviour
 
 		public void ShowHideSuccess ()
 		{
+				FloorTrigger.GetComponent<Destruction> ().SetSafetoTrue ();
+
 				instructionsSitSuccess.SetActive (false);
 				instructionsSitFailure.SetActive (false);
 				instructions1.SetActive (false);

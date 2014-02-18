@@ -28,7 +28,6 @@ public class Chair : MonoBehaviour
 				}
 
 				if (chairsActive == true) {
-						//manager.GetComponent<Manager> ().SatInChair (chairPosition);
 				}
 
 		}
